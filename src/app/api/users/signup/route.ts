@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { connectToDatabase } from "@/config/dbConfig";
 
 //establishing the database connection
+connectToDatabase();
 
 // creating a new user
 
