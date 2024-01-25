@@ -10,7 +10,7 @@ type user = {
   password: string
 }
 
-const page = () => {
+const Page = () => {
   const [user, Setuser] = useState<user>({
     email: "",
     password: ""
@@ -96,4 +96,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
