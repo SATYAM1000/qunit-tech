@@ -108,6 +108,7 @@ const Page = () => {
 				return;
 			}
 			ToastSuccess({ message: data.message });
+			router.replace("/login");
 		} catch (error) {
 			SetisLoading(false);
 			console.log(error);
