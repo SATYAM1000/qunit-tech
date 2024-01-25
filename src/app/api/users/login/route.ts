@@ -29,6 +29,12 @@ export async function POST(request: NextRequest) {
 			
 			);
 		}
+		if(!user.isVerified){
+			return NextResponse.json(
+				{ message: "Please verify your email", success: false },
+			
+			);
+		}
 
 		//check password is correct or not
 		const comparePassword = await bcrypt.compare(password, user.password);
