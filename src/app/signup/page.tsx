@@ -111,7 +111,7 @@ const Page = () => {
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 pt-5">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                Create and account
+                                Create an account
                             </h1>
                             <button className="w-full h-12 rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
              focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black" onClick={loginwithGoogle}>
