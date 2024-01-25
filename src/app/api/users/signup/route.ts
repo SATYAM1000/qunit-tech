@@ -25,6 +25,11 @@ export async function POST(request: NextRequest) {
 				{ message: "Please fill all the fields", success: false }
 			);
 		}
+		if(password.length < 6){
+			return NextResponse.json(
+				{ message: "Password must be at least 6 characters", success: false }
+			);
+		}
 
 		//check email is already exist or not
 		const emailExist = await User.findOne({ email });

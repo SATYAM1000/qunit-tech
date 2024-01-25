@@ -19,6 +19,12 @@ export async function POST(request: NextRequest) {
 				success: false,
 			});
 		}
+        if(newPassword.length < 6){
+            return NextResponse.json({
+                message: "Password must be at least 6 characters",
+                success: false,
+            })
+        }
 		if (!token) {
 			return NextResponse.json({
 				message: "Invalid token",
