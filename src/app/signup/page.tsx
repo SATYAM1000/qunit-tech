@@ -101,7 +101,7 @@ const Page = () => {
     return (
         <>
             <section className="bg-gray-50 dark:bg-gray-900 pt-5">
-                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mt-16">
+                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mt-16 max-md:p-0">
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8 pt-5">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -128,7 +128,7 @@ const Page = () => {
                                     <input type="tel" name="phone" id="phone" placeholder="Enter your Phone number" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={SetFields} />
                                 </div>
                                 <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                <div className="flex" onChange={SetFields}>
+                                <div className="flex max-md:flex-col max-md:gap-3" onChange={SetFields}>
                                     <div className="flex items-center me-4">
                                         <input id="inline-radio" type="radio" value="Student" name="category" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                         <label htmlFor="category" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Student</label>
