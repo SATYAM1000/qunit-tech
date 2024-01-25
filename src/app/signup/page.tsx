@@ -52,39 +52,39 @@ const Page = () => {
 		try {
 			if (!userInfo.name) {
 				ToastError({ message: "Name cannot be empty" });
-                SetisLoading(false);
+				SetisLoading(false);
 				return;
 			}
 			if (!userInfo.email) {
 				ToastError({ message: "Email cannot be empty" });
-                SetisLoading(false);
+				SetisLoading(false);
 				return;
 			}
 			if (!validator.isEmail(userInfo.email)) {
 				ToastError({ message: "Please enter a valid email" });
-                SetisLoading(false);
+				SetisLoading(false);
 				return;
 			}
 			if (!userInfo.password) {
 				ToastError({ message: "Password cannot be empty" });
-                SetisLoading(false);
+				SetisLoading(false);
 				return;
 			}
 			if (!userInfo.category) {
 				ToastError({ message: "Please Choose a category" });
-                SetisLoading(false);
+				SetisLoading(false);
 				return;
 			}
 			let MobileNumber: string | number = Number(userInfo.phone);
 			if (!MobileNumber) {
 				ToastError({ message: "Please enter correct mobile number" });
-                SetisLoading(false);
+				SetisLoading(false);
 				return;
 			}
 			MobileNumber = String(MobileNumber);
 			if (MobileNumber.length != 10) {
 				ToastError({ message: "Please enter 10-digit mobile number" });
-                SetisLoading(false);
+				SetisLoading(false);
 				return;
 			}
 			// Storing to db
@@ -107,9 +107,7 @@ const Page = () => {
 				return;
 			}
 			ToastSuccess({ message: data.message });
-			router.replace("/login");
 		} catch (error) {
-			SetisLoading(false);
 			console.log(error);
 			ToastError({ message: "Something went wrong" });
 		}
@@ -243,7 +241,7 @@ const Page = () => {
 									type="submit"
 									className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 									onClick={HandleSumitForRegister}>
-									{isLoading ? <ClipLoader color="white" size={15} /> : "Register"}
+									Create an account
 								</button>
 								<p className="text-sm font-light text-gray-500 dark:text-gray-400">
 									Already have an account?{" "}
