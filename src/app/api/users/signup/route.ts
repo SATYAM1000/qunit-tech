@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import User from "@/models/userModels";
 import { connectToDatabase } from "@/config/dbConfig";
 import { hashedPasswordGenerator } from "@/helpers/hashedPasswordGenerator";
+import { sendEmail } from "@/helpers/mailer";
 
 //establishing the database connection
 connectToDatabase();
@@ -53,14 +54,21 @@ export async function POST(request: NextRequest) {
 			category,
 		});
 		await newUser.save();
+		console.log("used saved ")
+
+
+		//send email ---------------------
+		// await sendEmail({ email, emailType: "VERIFY", userId: newUser._id });
+
 		return NextResponse.json(
 			{ message: "User created successfully", success: true },
 
 		);
 	} catch (error) {
-		console.log("Error while regestring user", error);
+		console.log("Error while registering user", error);
 		return NextResponse.json(
 			{ message: "Error while regestring user", success: false },
+			
 		);
 	}
 }
