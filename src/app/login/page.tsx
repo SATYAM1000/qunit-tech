@@ -3,12 +3,18 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import ToastError, { ToastSuccess } from '../utility/Toastify'
+import axios, { AxiosResponse } from 'axios'
 let validator = require('validator');
 
 type user = {
   email: string
   password: string
 }
+type ResponseType = {
+  message: string,
+  success: number
+}
+
 
 const Page = () => {
   const [user, Setuser] = useState<user>({
@@ -24,23 +30,42 @@ const Page = () => {
 
   }
 
-  const HandleSubmitOnLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const HandleSubmitOnLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!user.email) {
-      ToastError({ message: "Email cannot be empty" })
-      return;
-    }
-    if (!validator.isEmail(user.email)) {
-      ToastError({ message: "Please enter a valid email" })
-      return;
+    try {
+      if (!user.email) {
+        ToastError({ message: "Email cannot be empty" })
+        return;
+      }
+      if (!validator.isEmail(user.email)) {
+        ToastError({ message: "Please enter a valid email" })
+        return;
 
+      }
+      if (!user.password) {
+        ToastError({ message: "Password cannot be empty" })
+        return;
+      }
+      console.log(user)
+
+      // Login functionality
+
+      const responseLogin: AxiosResponse<ResponseType> = await axios.post('api/users/login', user, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
+      const { success, message } = responseLogin.data
+      if (!success) {
+        ToastError({ message })
+        return;
+      }
+
+      ToastSuccess({ message: "Login Successfully" })
+    } catch (error) {
+      ToastError({ message: "Something went wrong while login" })
     }
-    if (!user.password) {
-      ToastError({ message: "Password cannot be empty" })
-      return;
-    }
-    console.log(user)
-    ToastSuccess({ message: "Login Successfully" })
   }
 
   const loginwithGoogle = () => {

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 		if (!email || !password) {
 			return NextResponse.json(
 				{ message: "Please fill all the fields", success: false },
-				{ status: 400 }
+			
 			);
 		}
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 		if (!user) {
 			return NextResponse.json(
 				{ message: "User not found", success: false },
-				{ status: 400 }
+			
 			);
 		}
 
