@@ -15,10 +15,10 @@ connectToDatabase();
 export async function POST(request: NextRequest) {
 	try {
 		const requestBody = await request.json();
-		const { username, email, password, phoneNumber, role } = requestBody;
+		const { name, email, password, phone, category } = requestBody;
 
 		//check all fields are filled or not
-		if (!username || !email || !password || !phoneNumber) {
+		if (!name || !email || !password || !phone) {
 			return NextResponse.json(
 				{ message: "Please fill all the fields", success: false },
 				{ status: 400 }
@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
 		}
 
 		//check phone number already exist or not
-		const phoneNumberExist = await User.findOne({ phoneNumber });
-		if (phoneNumberExist) {
+		const phoneExist = await User.findOne({ phone });
+		if (phoneExist) {
 			return NextResponse.json(
 				{ message: "Phone number already exist", success: false },
 				{ status: 400 }
@@ -48,11 +48,11 @@ export async function POST(request: NextRequest) {
 
 		//creating a new user
 		const newUser = new User({
-			username,
+			name,
 			email,
 			password: hashedPassword,
-			phoneNumber,
-			role,
+			phone,
+			category,
 		});
 		await newUser.save();
 		console.log("used saved ")

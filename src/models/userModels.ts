@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
 	{
-		username: {
+		name: {
 			type: String,
 			required: [true, "username is required"],
 			trim: true,
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
 			required: [true, "password is required"],
 			trim: true,
 		},
-		phoneNumber: {
+		phone: {
 			type: String,
 			trim: true,
 			unique: true,
@@ -27,10 +27,10 @@ const userSchema = new mongoose.Schema(
 			maxlength: 10,
 			minlength: 10,
 		},
-		role: {
+		category: {
 			type: String,
-			enum: ["ADMIN", "STUDENT", "DEVELOPER"],
-			default: "STUDENT",
+			enum: ["Student", "professional", "developer","Admin"],
+			default: "Student",
 			trim: true,
 		},
 		verified: {
