@@ -3,22 +3,30 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import ToastError, { ToastSuccess } from '../utility/Toastify';
 import { ToastContainer } from 'react-toastify';
+import axios, { AxiosResponse } from 'axios';
 let validator = require('validator');
+
+
 type useInforType = {
     name: string,
     email: string,
     password: string,
     phone: number | undefined;
-    category: 'Student' | 'professional/developer' | undefined
+    category: 'Student' | 'Profession' | 'Developer'
+}
+type ResponseType = {
+    message: string,
+    success: number
 }
 
-const page = () => {
+
+const Page = () => {
     const [userInfo, SetUserInfo] = useState<useInforType>({
         name: "",
         email: "",
         password: "",
         phone: undefined,
-        category: undefined
+        category: 'Student'
     })
 
     const SetFields = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,37 +41,69 @@ const page = () => {
 
     }
 
-    const HandleSumitForRegister = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+    const HandleSumitForRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        try {
+            if (!userInfo.name) {
+                ToastError({ message: "Name cannot be empty" })
+                return;
+            }
+            if (!userInfo.email) {
+                ToastError({ message: "Email cannot be empty" })
+                return;
+            }
+            if (!validator.isEmail(userInfo.email)) {
+                ToastError({ message: "Please enter a valid email" })
+                return;
 
-        if (!userInfo.name) {
-            ToastError({ message: "Name cannot be empty" })
-            return;
-        }
-        if (!userInfo.email) {
-            ToastError({ message: "Email cannot be empty" })
-            return;
-        }
-        if (!validator.isEmail(userInfo.email)) {
-            ToastError({ message: "Please enter a valid email" })
-            return;
+            }
+            if (!userInfo.password) {
+                ToastError({ message: "Password cannot be empty" })
+                return;
+            }
+            if (!userInfo.category) {
+                ToastError({ message: "Please Choose a category" })
+                return;
+            }
+            let MobileNumber: string | number = Number(userInfo.phone);
+            if (!MobileNumber) {
+                ToastError({ message: "Please enter correct mobile number" })
+                return;
+            }
+            MobileNumber = String(MobileNumber);
+            if (MobileNumber.length != 10) {
+                ToastError({ message: "Please enter 10-digit mobile number" })
+                return;
+            }
+            // Storing to db
+
+            const response: AxiosResponse<ResponseType> = await axios.post('/api/users/signup', userInfo, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const { data } = response
+
+            if (!data.success) {
+                ToastError({ message: data.message })
+                return;
+            }
+            ToastSuccess({ message: data.message })
+
+        } catch (error) {
+            console.log(error)
+            ToastError({ message: 'Something went wrong' })
 
         }
-        if (!userInfo.password) {
-            ToastError({ message: "Password cannot be empty" })
-            return;
-        }
-        if (!userInfo.category) {
-            ToastError({ message: "Please Choose a category" })
-            return;
-        }
-
-        // Storing to db
-
-
-        ToastSuccess({ message: "Login Succesfully" })
-        console.log(userInfo)
     }
+    const get = () => {
+
+
+
+    }
+
     return (
         <>
             <section className="bg-gray-50 dark:bg-gray-900 pt-5">
@@ -74,7 +114,7 @@ const page = () => {
                                 Create and account
                             </h1>
                             <button className="w-full h-12 rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
-             focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white" onClick={loginwithGoogle}>
+             focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black" onClick={loginwithGoogle}>
                                 Login with Google</button>
                             <form className="space-y-4 md:space-y-6">
                                 <div>
@@ -96,12 +136,16 @@ const page = () => {
                                 <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                                 <div className="flex" onChange={SetFields}>
                                     <div className="flex items-center me-4">
-                                        <input id="inline-radio" type="radio" value="student" name="category" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                        <input id="inline-radio" type="radio" value="Student" name="category" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                         <label htmlFor="category" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Student</label>
                                     </div>
                                     <div className="flex items-center me-4">
-                                        <input id="inline-2-radio" type="radio" value="profession/developer" name="category" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                        <label htmlFor="category" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Professional/Developer</label>
+                                        <input id="inline-2-radio" type="radio" value="Profession" name="category" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                        <label htmlFor="category" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Profession</label>
+                                    </div>
+                                    <div className="flex items-center me-4">
+                                        <input id="inline-2-radio" type="radio" value="Developer" name="category" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                        <label htmlFor="category" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Developer</label>
                                     </div>
                                 </div>
                                 <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -121,4 +165,4 @@ const page = () => {
 
 }
 
-export default page
+export default Page

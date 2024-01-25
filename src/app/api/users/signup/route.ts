@@ -2,7 +2,6 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/models/userModels";
-import bcrypt from "bcryptjs";
 import { connectToDatabase } from "@/config/dbConfig";
 import { hashedPasswordGenerator } from "@/helpers/hashedPasswordGenerator";
 import { sendEmail } from "@/helpers/mailer";
@@ -11,6 +10,9 @@ import { sendEmail } from "@/helpers/mailer";
 connectToDatabase();
 
 // creating a new user
+export async function GET() {
+	return NextResponse.json({ message: "haisdf" })
+}
 
 export async function POST(request: NextRequest) {
 	try {
@@ -20,8 +22,7 @@ export async function POST(request: NextRequest) {
 		//check all fields are filled or not
 		if (!name || !email || !password || !phone) {
 			return NextResponse.json(
-				{ message: "Please fill all the fields", success: false },
-				{ status: 400 }
+				{ message: "Please fill all the fields", success: false }
 			);
 		}
 
@@ -29,17 +30,15 @@ export async function POST(request: NextRequest) {
 		const emailExist = await User.findOne({ email });
 		if (emailExist) {
 			return NextResponse.json(
-				{ message: "Email already exist", success: false },
-				{ status: 400 }
+				{ message: "Email already exist", success: false }
 			);
 		}
 
 		//check phone number already exist or not
-		const phoneExist = await User.findOne({ phone });
-		if (phoneExist) {
+		const phoneNumberExist = await User.findOne({ phone });
+		if (phoneNumberExist) {
 			return NextResponse.json(
-				{ message: "Phone number already exist", success: false },
-				{ status: 400 }
+				{ message: "Phone number already exist", success: false }
 			);
 		}
 
@@ -56,20 +55,20 @@ export async function POST(request: NextRequest) {
 		});
 		await newUser.save();
 		console.log("used saved ")
-		
+
 
 		//send email ---------------------
-		await sendEmail({email,emailType:"VERIFY",userId:newUser._id});
+		// await sendEmail({ email, emailType: "VERIFY", userId: newUser._id });
 
 		return NextResponse.json(
 			{ message: "User created successfully", success: true },
-			{ status: 200 }
+
 		);
 	} catch (error) {
 		console.log("Error while registering user", error);
 		return NextResponse.json(
-			{ message: "Error while registering user", success: false },
-			{ status: 500 }
+			{ message: "Error while regestring user", success: false },
+			
 		);
 	}
 }

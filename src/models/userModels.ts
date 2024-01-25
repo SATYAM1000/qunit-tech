@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
 		},
 		category: {
 			type: String,
-			enum: ["Student", "professional", "developer","Admin"],
+			enum: ['Student', 'Profession', 'Developer'],
 			default: "Student",
 			trim: true,
 		},
