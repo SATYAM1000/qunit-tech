@@ -5,6 +5,7 @@ import User from "@/models/userModels";
 import bcrypt from "bcryptjs";
 import { connectToDatabase } from "@/config/dbConfig";
 import { hashedPasswordGenerator } from "@/helpers/hashedPasswordGenerator";
+import { sendEmail } from "@/helpers/mailer";
 
 //establishing the database connection
 connectToDatabase();
@@ -54,14 +55,19 @@ export async function POST(request: NextRequest) {
 			role,
 		});
 		await newUser.save();
+		
+
+		//send email ---------------------
+		await sendEmail({email,emailType:"VERIFY",userId:newUser._id});
+
 		return NextResponse.json(
 			{ message: "User created successfully", success: true },
 			{ status: 200 }
 		);
 	} catch (error) {
-		console.log("Error while regestring user", error);
+		console.log("Error while registering user", error);
 		return NextResponse.json(
-			{ message: "Error while regestring user", success: false },
+			{ message: "Error while registering user", success: false },
 			{ status: 500 }
 		);
 	}
