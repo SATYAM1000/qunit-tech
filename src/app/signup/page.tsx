@@ -98,12 +98,6 @@ const Page = () => {
 
         }
     }
-    const get = () => {
-
-
-
-    }
-
     return (
         <>
             <section className="bg-gray-50 dark:bg-gray-900 pt-5">
