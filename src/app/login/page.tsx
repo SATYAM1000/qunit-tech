@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import ToastError, { ToastSuccess } from '../utility/Toastify'
 import axios, { AxiosResponse } from 'axios'
+import { useRouter } from 'next/navigation'
 let validator = require('validator');
 
 type user = {
@@ -17,6 +18,7 @@ type ResponseType = {
 
 
 const Page = () => {
+  const router=useRouter();
   const [user, Setuser] = useState<user>({
     email: "",
     password: ""
@@ -62,9 +64,10 @@ const Page = () => {
         return;
       }
 
-      ToastSuccess({ message: "Login Successfully" })
+      ToastSuccess({ message: "Login Successful" })
+      router.replace('/');
     } catch (error) {
-      ToastError({ message: "Something went wrong while login" })
+      ToastError({ message: "Something went wrong" })
     }
   }
 
