@@ -2,7 +2,6 @@
 
 import User from "@/models/userModels";
 import jwt from "jsonwebtoken";
-
 export const generateToken = async (user: any) => {
 	const tokenData = {
 		_id: user._id,
