@@ -135,5 +135,6 @@ const Page = () => {
       </section>
       <ToastContainer />
     </>
-};
-export default Page;
+  );
+}
+export default Page
