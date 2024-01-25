@@ -7,7 +7,7 @@ import { hashedPasswordGenerator } from "./hashedPasswordGenerator";
 
 export const sendEmail = async ({ email, emailType, userId }: any) => {
 	try {
-		const hashedToken = await hashedPasswordGenerator(userId);
+		const hashedToken = await hashedPasswordGenerator(userId.toString());
 		if (emailType === "VERIFY") {
 			await User.findByIdAndUpdate(
 				userId,

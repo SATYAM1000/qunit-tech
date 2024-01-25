@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
 			role,
 		});
 		await newUser.save();
+		console.log("used saved ")
 		
 
 		//send email ---------------------
