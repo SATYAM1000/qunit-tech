@@ -91,7 +91,7 @@ const Page = () => {
 		ToastSuccess({ message: "Login With GooGle" });
 	};
 
-	
+
 
 	return (
 		<>
