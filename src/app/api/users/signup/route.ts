@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
 	try {
 		const requestBody = await request.json();
 		const { name, email, password, phone, category } = requestBody;
+		console.log("request body: ", requestBody);
 
 		//check all fields are filled or not
 		if (!name || !email || !password || !phone) {
@@ -25,7 +26,13 @@ export async function POST(request: NextRequest) {
 				{ message: "Please fill all the fields", success: false }
 			);
 		}
-
+		
+		if(password.length < 6){
+			return NextResponse.json(
+				{ message: "Password must be at least 6 characters", success: false }
+			);
+		}
+	
 		//check email is already exist or not
 		const emailExist = await User.findOne({ email });
 		if (emailExist) {
@@ -42,6 +49,8 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
+		
+
 		//hashing the password
 		const hashedPassword = await hashedPasswordGenerator(password);
 
@@ -53,6 +62,7 @@ export async function POST(request: NextRequest) {
 			phone,
 			category,
 		});
+		
 		await newUser.save();
 		console.log("used saved ")
 
@@ -65,9 +75,9 @@ export async function POST(request: NextRequest) {
 
 		);
 	} catch (error) {
-		console.log("Error while registering user", error);
+		console.log("Error while registering user: ", error);
 		return NextResponse.json(
-			{ message: "Error while regestring user", success: false },
+			{ message: "Error while registering user", success: false },
 			
 		);
 	}
