@@ -8,6 +8,7 @@ import ToastError, { ToastSuccess } from "../utility/Toastify";
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
+
 let validator = require("validator");
 
 type user = {
@@ -21,6 +22,7 @@ type ResponseType = {
 
 const Page = () => {
 	const router = useRouter();
+	
 
 	const [isLoading, SetisLoading] = useState<boolean>(false);
 
@@ -104,6 +106,7 @@ const Page = () => {
 							</h1>
 
 							<button
+								onClick={loginwithGoogle}
 								className="w-full h-12 rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
              focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black">
 								Login with Google
