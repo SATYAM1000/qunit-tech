@@ -7,10 +7,11 @@ export const generateToken = async (user: any) => {
 		_id: user._id,
 		name: user.name,
 		email: user.email,
-		role: user.role,
+		category: user.category,
 	};
 	const token = jwt.sign(tokenData, process.env.JWT_SECRET as string, {
 		expiresIn: "30d",
 	});
+
 	return token;
 };

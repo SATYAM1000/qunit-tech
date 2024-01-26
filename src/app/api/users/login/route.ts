@@ -47,15 +47,14 @@ export async function POST(request: NextRequest) {
 
 		//generate jwt token--------------------
 
-		const token = generateToken(user);
-
+		const token =await generateToken(user);
+		console.log(token)
 		const response: any = NextResponse.json({
 			message: "Login successful",
 			success: true,
+			userInfo: user
 		});
 		response.cookies.set("token", token, { httpOnly: true });
-		return response;
-
 		return response;
 	} catch (error: any) {
 		console.log("Error while login", error);

@@ -1,13 +1,17 @@
+"use client";
 /** @format */
 
-"use client";
 import Link from "next/link";
-import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import ToastError, { ToastSuccess } from "../utility/Toastify";
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { login } from "../../../store/userInfo.slice";
+
+
 
 let validator = require("validator");
 
@@ -18,19 +22,17 @@ type user = {
 type ResponseType = {
 	message: string;
 	success: number;
+	userInfo: any
 };
 
 const Page = () => {
 	const router = useRouter();
-	
-
+	const dispatch = useDispatch();
 	const [isLoading, SetisLoading] = useState<boolean>(false);
-
 	const [user, Setuser] = useState<user>({
 		email: "",
 		password: "",
 	});
-
 	const setFields = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value }: { name: string; value: string } = e.target;
 		Setuser({
@@ -60,7 +62,7 @@ const Page = () => {
 				SetisLoading(false);
 				return;
 			}
-			console.log(user);
+
 
 			// Login functionality
 
@@ -75,15 +77,17 @@ const Page = () => {
 			);
 			SetisLoading(false);
 
-			const { success, message } = responseLogin.data;
+			const { success, message, userInfo } = responseLogin.data;
 			if (!success) {
 				ToastError({ message });
 				return;
 			}
-
+			console.log(userInfo)
+			dispatch(login(userInfo))
 			ToastSuccess({ message: "Login Successful" });
 			router.replace("/");
 		} catch (error) {
+			console.log(error)
 			SetisLoading(false);
 			ToastError({ message: "Something went wrong" });
 		}
@@ -92,9 +96,7 @@ const Page = () => {
 	const loginwithGoogle = () => {
 		ToastSuccess({ message: "Login With GooGle" });
 	};
-
-
-
+	
 	return (
 		<>
 			<section className="bg-gray-50 dark:bg-gray-900 ">

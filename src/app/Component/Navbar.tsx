@@ -1,10 +1,54 @@
 "use client"
+import axios, { AxiosResponse } from 'axios';
 import Link from 'next/link'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
+import ToastError, { ToastSuccess } from '../utility/Toastify';
+import { ToastContainer } from 'react-toastify';
+import { login, logout } from '../../../store/userInfo.slice';
+import jwt, { JwtPayload } from "jsonwebtoken";
+type ResponseType = {
+    message?: string,
+    success: string,
+    cookie?: string
+}
 
 const Navbar = () => {
+    const dispatch = useDispatch()
     const [open, setOpen] = useState(false);
+    const [Isloggedin, setIsloggedin] = useState(false);
+    const LogoutUser = async () => {
+        const deleteCookie = await axios.get("/api/users/logout")
+        const response: ResponseType = deleteCookie.data;
+        console.log(deleteCookie.data)
+        if (!response.success) {
+            ToastError({ message: "Something went wrong while Logging Out" })
+        }
+        setIsloggedin(false)
+        dispatch(logout(null))
+        ToastSuccess({ message: "Logout Successfully" })
+    }
+    const verifyToken = (token: string): any => {
+        return jwt.decode(token)
+
+    }
+    useEffect(() => {
+        (async () => {
+            const response: any = await axios.get('/api/users/getcookie');
+            // console.log(response.data)
+            const { TokenCookie } = response.data;
+            console.log(TokenCookie)
+            if (TokenCookie) {
+                setIsloggedin(true)
+                const data: any = verifyToken(TokenCookie.value)
+                if (data)
+                    dispatch(login(data))
+            }
+        })()
+
+    }, [])
+
     return (
         <>
             <header className={` bg-white dark:bg-gray-900 fixed w-full z-20 p-2`}>
@@ -18,7 +62,7 @@ const Navbar = () => {
                             <button
                                 onClick={() => setOpen(!open)}
                                 id="navbarToggler"
-                                className={` ${open && "navbarTogglerActive " 
+                                className={` ${open && "navbarTogglerActive "
                                     } absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-black focus:ring-2 lg:hidden`}
                             >
                                 <span className="relative my-[6px] block h-[2px] w-[30px] bg-black dark:bg-white"></span>
@@ -46,12 +90,19 @@ const Navbar = () => {
                                 </ul>
                             </nav>
                         </div>
-                        <div className="hidden justify-end pr-16 sm:flex lg:pr-0 gap-4">
-                            <Link href={'/login'} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</Link>
-                            <Link href={'/signup'} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Signup</Link>
+                        <div className=" justify-end pr-16 flex lg:pr-0 gap-4">
+                            {
+                                !Isloggedin ?
+                                    <>
+                                        <Link href={'/login'} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</Link>
+                                        <Link href={'/signup'} className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Signup</Link>
+                                    </> :
+                                    <button className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={LogoutUser}>Logout</button>
+                            }
                         </div>
                     </div>
                 </div>
+                <ToastContainer />
             </header>
         </>
     )

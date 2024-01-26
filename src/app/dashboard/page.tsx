@@ -1,9 +1,13 @@
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
-    <div>page</div>
+    <>
+      <main className="min-h-screen  pt-16">
+        <div>Dashboard</div>
+      </main>
+    </>
   )
 }
 
-export default page
+export default Page

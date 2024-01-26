@@ -1,13 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type UserType = {
     _id: string,
     name: string,
     email: string,
-    role: string,
+    category: string,
 
 }
-const initialState: { user: UserType | null } = {
+
+interface UserState {
+    user: UserType | null;
+}
+const initialState: UserState = {
     user: null
 };
 
@@ -16,12 +20,12 @@ export const userSlice = createSlice({
     name: "userData",
     initialState,
     reducers: {
-        login: (state, action) => {
+        login: (state, action:PayloadAction<UserType>) => {
             const user: UserType = {
-                _id: action.payload,
-                name: action.payload,
-                email: action.payload,
-                role: action.payload,
+                _id: action.payload._id,
+                name: action.payload.name,
+                email: action.payload.email,
+                category: action.payload.category,
             }
 
             state.user = user

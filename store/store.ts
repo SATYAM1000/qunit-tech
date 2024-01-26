@@ -5,3 +5,4 @@ export const store = configureStore({
         UserReducer
     }
 })
+export type IRootState=ReturnType<typeof store.getState>
