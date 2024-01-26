@@ -91,6 +91,8 @@ const Page = () => {
 		ToastSuccess({ message: "Login With GooGle" });
 	};
 
+	
+
 	return (
 		<>
 			<section className="bg-gray-50 dark:bg-gray-900 ">
@@ -100,12 +102,13 @@ const Page = () => {
 							<h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
 								Sign in to your account
 							</h1>
+
 							<button
 								className="w-full h-12 rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
-             focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black"
-								onClick={loginwithGoogle}>
+             focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black">
 								Login with Google
 							</button>
+
 							<form className="space-y-4 md:space-y-6">
 								<div>
 									<label
