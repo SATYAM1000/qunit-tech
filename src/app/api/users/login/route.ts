@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 		if (!email || !password) {
 			return NextResponse.json(
 				{ message: "Please fill all the fields", success: false },
-				{ status: 400 }
+
 			);
 		}
 
@@ -25,14 +25,14 @@ export async function POST(request: NextRequest) {
 		const user = await User.findOne({ email });
 		if (!user) {
 			return NextResponse.json(
-				{ message: "User not found", success: false },
-				{ status: 400 }
+				{ message: "User not found,please register", success: false },
+
 			);
 		}
-		if(!user.isVerified){
+		if (!user.isVerified) {
 			return NextResponse.json(
 				{ message: "Please verify your email", success: false },
-			
+
 			);
 		}
 
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
 		const token = generateToken(user);
 
-		const response:any = NextResponse.json({
+		const response: any = NextResponse.json({
 			message: "Login successful",
 			success: true,
 		});
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 		return response;
 
 		return response;
-	} catch (error:any) {
+	} catch (error: any) {
 		console.log("Error while login", error);
 		return NextResponse.json(
 			{ message: "Error while login", success: false },
