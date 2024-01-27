@@ -80,7 +80,7 @@ const Page = () => {
 				ToastError({ message });
 				return;
 			}
-			console.log(userInfo)
+			console.log("userInfo ", userInfo)
 			dispatch(login(userInfo))
 			ToastSuccess({ message: "Login Successful" });
 			router.push('/')
