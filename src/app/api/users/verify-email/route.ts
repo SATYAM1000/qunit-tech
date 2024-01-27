@@ -21,9 +21,6 @@ export async function POST(request: NextRequest) {
 				{
 					message: "Invalid token",
 					success: false,
-				},
-				{
-					status: 400,
 				}
 			);
 		}
@@ -35,16 +32,13 @@ export async function POST(request: NextRequest) {
 			{
 				message: "Email verified successfully",
 				success: true,
-			},
-			{
-				status: 200,
 			}
 		);
 	} catch (error: any) {
 		console.log("Error while email verification: ", error);
 		return NextResponse.json(
-			{ error: error.message, success: false },
-			{ status: 500 }
+			{ error: error.message, success: false }
+	
 		);
 	}
 }

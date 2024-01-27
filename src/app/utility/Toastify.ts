@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 type MessageType = {
     message: string
+    TimetoClose?:number
 }
 const ToastError = ({ message }: MessageType) => {
     toast.dismiss()
@@ -16,11 +17,11 @@ const ToastError = ({ message }: MessageType) => {
     });
 
 }
-const ToastSuccess = ({ message }: MessageType) => {
+const ToastSuccess = ({ message,TimetoClose=1200 }: MessageType) => {
     toast.dismiss()
     toast.success(message, {
         position: "top-center",
-        autoClose: 1200,
+        autoClose: TimetoClose,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
