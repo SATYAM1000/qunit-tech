@@ -83,7 +83,7 @@ const Page = () => {
 			console.log("userInfo ", userInfo)
 			dispatch(login(userInfo))
 			ToastSuccess({ message: "Login Successful" });
-			router.push('/')
+			router.push('/categories')
 		} catch (error) {
 			console.log(error)
 			SetisLoading(false);

@@ -31,5 +31,6 @@ export const config = {
 		"/job",
 		"/freelancing",
 		"/learning",
+		'/categories'
 	],
 };
