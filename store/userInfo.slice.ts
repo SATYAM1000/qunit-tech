@@ -10,9 +10,11 @@ type UserType = {
 
 interface UserState {
     user: UserType | null;
+    isloggedIn:boolean
 }
 const initialState: UserState = {
-    user: null
+    user: null,
+    isloggedIn:false
 };
 
 
@@ -29,9 +31,11 @@ export const userSlice = createSlice({
             }
 
             state.user = user
+            state.isloggedIn=true
         },
         logout: (state, action) => {
             state.user = null
+            state.isloggedIn=false
         }
 
     }

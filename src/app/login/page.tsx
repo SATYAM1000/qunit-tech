@@ -24,11 +24,11 @@ type ResponseType = {
 	success: number;
 	userInfo: any
 };
-
 const Page = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const [isLoading, SetisLoading] = useState<boolean>(false);
+	
 	const [user, Setuser] = useState<user>({
 		email: "",
 		password: "",
@@ -64,8 +64,6 @@ const Page = () => {
 			}
 
 
-			// Login functionality
-
 			const responseLogin: AxiosResponse<ResponseType> = await axios.post(
 				"api/users/login",
 				user,
@@ -85,7 +83,7 @@ const Page = () => {
 			console.log(userInfo)
 			dispatch(login(userInfo))
 			ToastSuccess({ message: "Login Successful" });
-			router.replace("/");
+			router.push('/')
 		} catch (error) {
 			console.log(error)
 			SetisLoading(false);
@@ -93,10 +91,14 @@ const Page = () => {
 		}
 	};
 
+
+	// Login functionality
+
+
 	const loginwithGoogle = () => {
 		ToastSuccess({ message: "Login With GooGle" });
 	};
-	
+
 	return (
 		<>
 			<section className="bg-gray-50 dark:bg-gray-900 ">

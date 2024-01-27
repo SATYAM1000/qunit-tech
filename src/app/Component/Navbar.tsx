@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ToastError, { ToastSuccess } from '../utility/Toastify';
 import { ToastContainer } from 'react-toastify';
 import { login, logout } from '../../../store/userInfo.slice';
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 type ResponseType = {
     message?: string,
     success: string,
@@ -15,9 +15,10 @@ type ResponseType = {
 }
 
 const Navbar = () => {
+    console.log("rerender")
     const dispatch = useDispatch()
-    const [open, setOpen] = useState(false);
-    const [Isloggedin, setIsloggedin] = useState(false);
+    const [open, setOpen] = useState(false); //mobile view 
+    const [Isloggedin, setIsloggedin] = useState(useSelector(state => state.isloggedIn));
     const LogoutUser = async () => {
         const deleteCookie = await axios.get("/api/users/logout")
         const response: ResponseType = deleteCookie.data;
@@ -33,21 +34,22 @@ const Navbar = () => {
         return jwt.decode(token)
 
     }
+    const getData = async () => {
+        const response: any = await axios.get('/api/users/getcookie');
+        // console.log(response.data)
+        const { TokenCookie } = response.data;
+        console.log(TokenCookie)
+        if (TokenCookie) {
+            setIsloggedin(true)
+            const data: any = verifyToken(TokenCookie.value)
+            if (data)
+                dispatch(login(data))
+        }
+  
+    }
     useEffect(() => {
-        (async () => {
-            const response: any = await axios.get('/api/users/getcookie');
-            // console.log(response.data)
-            const { TokenCookie } = response.data;
-            console.log(TokenCookie)
-            if (TokenCookie) {
-                setIsloggedin(true)
-                const data: any = verifyToken(TokenCookie.value)
-                if (data)
-                    dispatch(login(data))
-            }
-        })()
-
-    }, [])
+        getData();
+    }, [Isloggedin])
 
     return (
         <>
