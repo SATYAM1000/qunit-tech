@@ -1,10 +1,10 @@
 import { toast } from "react-toastify";
 type MessageType = {
     message: string
-    TimetoClose?:number
+    TimetoClose?: number
 }
 const ToastError = ({ message }: MessageType) => {
-    toast.dismiss()
+
     toast.error(message, {
         position: "top-center",
         autoClose: 1000,
@@ -17,8 +17,8 @@ const ToastError = ({ message }: MessageType) => {
     });
 
 }
-const ToastSuccess = ({ message,TimetoClose=1200 }: MessageType) => {
-    toast.dismiss()
+const ToastSuccess = ({ message, TimetoClose = 1200 }: MessageType) => {
+
     toast.success(message, {
         position: "top-center",
         autoClose: TimetoClose,
@@ -31,7 +31,7 @@ const ToastSuccess = ({ message,TimetoClose=1200 }: MessageType) => {
     });
 }
 const ToastWorn = ({ message }: MessageType) => {
-    toast.dismiss()
+
     toast.warn(message, {
         position: "top-center",
         autoClose: 1000,
