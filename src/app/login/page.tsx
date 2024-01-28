@@ -10,8 +10,7 @@ import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/userInfo.slice";
-
-
+import { FcGoogle } from "react-icons/fc";
 
 let validator = require("validator");
 
@@ -28,7 +27,7 @@ const Page = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const [isLoading, SetisLoading] = useState<boolean>(false);
-	
+
 	const [user, Setuser] = useState<user>({
 		email: "",
 		password: "",
@@ -106,6 +105,7 @@ const Page = () => {
 					<div className="w-full bg-white rounded-lg shadow dark:border  sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 mt-16">
 						<div className="p-6 space-y-4 md:space-y-6 sm:p-8 ">
 							<h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+
 								Sign in to your account
 							</h1>
 
@@ -113,7 +113,9 @@ const Page = () => {
 								onClick={loginwithGoogle}
 								className="w-full h-12 rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
              focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black">
-								Login with Google
+								<div className="flex justify-center items-center gap-4 font-medium">
+									<FcGoogle size={25} />Login with Google
+								</div>
 							</button>
 
 							<form className="space-y-4 md:space-y-6">

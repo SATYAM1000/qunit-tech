@@ -1,6 +1,7 @@
 /** @format */
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { Console } from "console";
 
 type UserType = {
 	_id: string;
@@ -24,18 +25,15 @@ export const userSlice = createSlice({
 	reducers: {
 		login: (state, action: PayloadAction<UserType>) => {
 			console.log("payload", action.payload);
-			const user: UserType = {
+			state.user = {
 				_id: action.payload._id,
 				name: action.payload.name,
 				email: action.payload.email,
 				category: action.payload.category,
 			};
-
-			return {
-				...state,
-				user: user,
-				isloggedIn: true,
-			};
+			state.isloggedIn = true;
+			console.log((state.user));
+			
 		},
 		logout: (state, action) => {
 			state.user = null;
