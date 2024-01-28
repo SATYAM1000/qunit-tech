@@ -10,6 +10,7 @@ import ToastError, { ToastSuccess } from "../utility/Toastify";
 import { ToastContainer } from "react-toastify";
 import { login, logout } from "../../../store/userInfo.slice";
 import jwt from "jsonwebtoken";
+import { useRouter } from "next/navigation";
 
 type ResponseType = {
 	message?: string;
@@ -21,6 +22,7 @@ const Navbar = () => {
 	console.log("rerender");
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false); //mobile view
+	const router=useRouter()
 	const [Isloggedin, setIsloggedin] = useState(
 		useSelector((state) => state.isloggedIn)
 	);
@@ -35,6 +37,7 @@ const Navbar = () => {
 		setIsloggedin(false);
 		dispatch(logout(null));
 		ToastSuccess({ message: "Logout Successfully" });
+		router.push("/login")
 	};
 	const verifyToken = (token: string): any => {
 		return jwt.decode(token);

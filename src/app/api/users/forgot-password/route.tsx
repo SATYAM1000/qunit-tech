@@ -13,11 +13,12 @@ export async function POST(request: NextRequest) {
 	try {
 		const requestBody = await request.json();
 		const { email } = requestBody;
-
+		console.log(email);
+		
 		if (!email || typeof email !== "string" || !isValidEmail(email)) {
 			return NextResponse.json(
 				{ message: "Please provide a valid email address", success: false },
-				{ status: 400 }
+		
 			);
 		}
 
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
 		if (!existingUser) {
 			return NextResponse.json(
 				{ message: "Email does not exist", success: false },
-				{ status: 400 }
+		
 			);
 		}
 
@@ -37,14 +38,14 @@ export async function POST(request: NextRequest) {
 			{
 				message: "Password reset link has been sent to your email",
 				success: true,
-			},
-			{ status: 200 }
+			}
+		
 		);
 	} catch (error: any) {
 		console.error("Error while handling forgot password:", error);
 		return NextResponse.json(
 			{ message: "Internal Server Error", success: false },
-			{ status: 500 }
+			
 		);
 	}
 }

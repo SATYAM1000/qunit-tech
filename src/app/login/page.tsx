@@ -81,7 +81,7 @@ const Page = () => {
 			}
 			console.log("userInfo ", userInfo)
 			dispatch(login(userInfo))
-			ToastSuccess({ message: "Login Successful" });
+			ToastSuccess({ message: "Login Successful",TimetoClose:1200});
 			router.push('/categories')
 		} catch (error) {
 			console.log(error)
@@ -151,7 +151,7 @@ const Page = () => {
 								</div>
 								<div className="flex items-center justify-between">
 									<Link
-										href="#"
+										href="/forget-password"
 										className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
 										Forgot password?
 									</Link>

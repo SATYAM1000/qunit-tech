@@ -1,7 +1,7 @@
 /** @format */
 
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Console } from "console";
+
 
 type UserType = {
 	_id: string;
@@ -24,7 +24,7 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {
 		login: (state, action: PayloadAction<UserType>) => {
-			console.log("payload", action.payload);
+			
 			state.user = {
 				_id: action.payload._id,
 				name: action.payload.name,
