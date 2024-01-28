@@ -10,6 +10,8 @@ import { FcMoneyTransfer } from "react-icons/fc";
 import { FcSoundRecordingCopyright } from "react-icons/fc";
 import { FcOk } from "react-icons/fc";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
 type Props = {};
 
 const allCards = [
@@ -34,8 +36,8 @@ const allCards = [
 const PageAfterLogin = (props: Props) => {
 	const router = useRouter();
 	useEffect(() => {
-		const visitedOrNot = localStorage.getItem("hasVisited");
-		if (visitedOrNot === "true") {
+		const hasVisited = Cookies.get("hasVisited");
+		if (hasVisited === "true") {
 			router.replace("/");
 		}
 	}, []);

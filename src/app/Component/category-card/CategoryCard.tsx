@@ -3,6 +3,8 @@
 import React from "react";
 import styles from "./categorycard.module.css";
 import { useRouter } from "next/navigation";
+import Cookies from 'js-cookie';
+
 
 type Props = {};
 
@@ -12,7 +14,7 @@ const CategoryCard = (props: any) => {
 	const categoryCardHandler = (heading: any) => {
 		setCardHeading(heading);
 		console.log(heading);
-		localStorage.setItem('hasVisited',"true");
+		Cookies.set('hasVisited', "true");
 		router.replace(`/`);
 	};
 	return (
