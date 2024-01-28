@@ -66,7 +66,7 @@ const Page = () => {
 
                                     {
                                         isloading ?
-                                            <ClipLoader size={20} />
+                                            <ClipLoader size={15} color="white" />
                                             : "Reset password "
                                     }
 

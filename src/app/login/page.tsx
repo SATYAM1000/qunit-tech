@@ -163,7 +163,7 @@ const Page = () => {
 									{isLoading ? (
 										<ClipLoader color="white" size={15} />
 									) : (
-										"Create an account"
+										"Login"
 									)}
 								</button>
 								<p className="text-sm font-light text-gray-500 dark:text-gray-400">

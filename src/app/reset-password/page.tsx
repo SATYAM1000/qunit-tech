@@ -3,6 +3,8 @@ import axios, { AxiosResponse } from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useState } from 'react'
 import ToastError, { ToastSuccess, ToastWorn } from '../utility/Toastify'
+import { ClipLoader } from "react-spinners";
+
 
 type PasswordFieldTypes = {
     password: string,
@@ -13,7 +15,8 @@ type ResponseType = {
     success: number;
 };
 const Page = () => {
-    const router = useRouter()
+    const router = useRouter();
+    const [isLoading, SetisLoading] = useState<boolean>(false)
     const searchParams = useSearchParams()
     const [passwords, Setpasswords] = useState<PasswordFieldTypes>({
         password: "",
@@ -32,23 +35,28 @@ const Page = () => {
 
     const HandleSubmitOnRestPassword = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        SetisLoading(true)
 
         if (!passwords.password) {
             ToastWorn({ message: "password filed should not be empty" })
+            SetisLoading(false)
             return;
         }
         if (!passwords.cpassword) {
             ToastWorn({ message: "confirm password filed should not be empty" })
+            SetisLoading(false)
             return;
         }
         if (passwords.cpassword != passwords.password) {
             ToastError({ message: "password and confirm password must  be same" })
+            SetisLoading(false)
             return;
         }
         else {
 
             if (passwords.password.length < 6) {
                 ToastWorn({ message: "New Password must be 6 digits long" })
+                SetisLoading(false)
                 return;
 
             }
@@ -57,13 +65,16 @@ const Page = () => {
                     "Content-Type": "application/json"
                 }
             })
+            SetisLoading(false)
             console.log(data)
             if (!data.success) {
                 ToastError({ message: data.message })
+                SetisLoading(false)
                 return;
             }
             else {
                 ToastSuccess({ message: data.message });
+                SetisLoading(false)
                 router.replace("/login")
                 return true
             }
@@ -91,7 +102,7 @@ const Page = () => {
                                     <input type="confirm-password" name="cpassword" id="confirm-password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={SetPasswordFields} />
                                 </div>
 
-                                <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={HandleSubmitOnRestPassword}>Reset passwod</button>
+                                <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={HandleSubmitOnRestPassword}>{isLoading ? <ClipLoader color="white" size={15} /> : "Reset Password"}</button>
                             </form>
                         </div>
                     </div>
