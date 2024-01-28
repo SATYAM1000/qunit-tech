@@ -89,7 +89,10 @@ const Page = () => {
 	// Login functionality
 
 	const loginwithGoogle = () => {
-		ToastSuccess({ message: "Login With GooGle" });
+		toast("Feature coming soon", {
+			icon: <FcGoogle />,
+			duration: 1000,
+		});
 	};
 
 	return (
