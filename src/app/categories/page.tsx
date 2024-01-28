@@ -1,6 +1,6 @@
 /** @format */
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./page.module.css";
 import CategoryCard from "../Component/category-card/CategoryCard";
 import { AiOutlineDollar } from "react-icons/ai";
@@ -33,6 +33,12 @@ const allCards = [
 
 const PageAfterLogin = (props: Props) => {
 	const router = useRouter();
+	useEffect(() => {
+		const visitedOrNot = localStorage.getItem("hasVisited");
+		if (visitedOrNot === "true") {
+			router.replace("/");
+		}
+	}, []);
 
 	return (
 		<div className={styles.categoriesContainer}>

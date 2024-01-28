@@ -64,6 +64,7 @@ const Page = () => {
             }
             else {
                 ToastSuccess({ message: data.message });
+                router.replace("/login")
                 return true
             }
         }

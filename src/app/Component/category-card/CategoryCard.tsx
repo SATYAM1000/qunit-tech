@@ -12,6 +12,7 @@ const CategoryCard = (props: any) => {
 	const categoryCardHandler = (heading: any) => {
 		setCardHeading(heading);
 		console.log(heading);
+		localStorage.setItem('hasVisited',"true");
 		router.replace(`/`);
 	};
 	return (
