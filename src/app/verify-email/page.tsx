@@ -20,7 +20,7 @@ const page = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		const sendmail = async () => {
+		const verifyUserEmail = async () => {
 			try {
 				const { data } = await axios.post(
 					"/api/users/verify-email",
@@ -47,7 +47,7 @@ const page = () => {
 			}
 		};
 
-		sendmail();
+		verifyUserEmail();
 	}, [token]);
 
 	return (
