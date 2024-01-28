@@ -104,9 +104,9 @@ const Page = () => {
 
 							<button
 								onClick={loginwithGoogle}
-								className="w-full h-12 rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
+								className="w-full h-12 text-black rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
              focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black">
-								<div className="flex justify-center items-center gap-4 font-medium">
+								<div className="flex justify-center items-center gap-4 font-medium ">
 									<FcGoogle size={25} />
 									Login with Google
 								</div>
