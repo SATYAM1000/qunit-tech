@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import { login, logout } from "../../../store/userInfo.slice";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type ResponseType = {
 	message?: string;
@@ -19,7 +20,6 @@ type ResponseType = {
 };
 
 const Navbar = () => {
-	console.log("rerender");
 	const dispatch = useDispatch();
 	const [open, setOpen] = useState(false); //mobile view
 	const router=useRouter()
@@ -30,13 +30,12 @@ const Navbar = () => {
 	const LogoutUser = async () => {
 		const deleteCookie = await axios.get("/api/users/logout");
 		const response: ResponseType = deleteCookie.data;
-		console.log(deleteCookie.data);
 		if (!response.success) {
-			ToastError({ message: "Something went wrong while Logging Out" });
+			toast.error("Something went wrong while Logging Out");
 		}
 		setIsloggedin(false);
 		dispatch(logout(null));
-		ToastSuccess({ message: "Logout Successfully" });
+		toast.success("Logout Successful");
 		router.push("/login")
 	};
 	const verifyToken = (token: string): any => {
