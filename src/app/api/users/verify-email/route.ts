@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
 	try {
 		const requestBody = await request.json();
 		const { token } = requestBody;
-		console.log("verification token: ", token);
 		const user = await User.findOne({
 			emailVerificationToken: token,
 			emailVerificationExpiry: { $gt: Date.now() },

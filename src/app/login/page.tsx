@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 /** @format */
 
@@ -11,6 +13,7 @@ import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/userInfo.slice";
 import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 
 let validator = require("validator");
 
@@ -21,7 +24,7 @@ type user = {
 type ResponseType = {
 	message: string;
 	success: number;
-	userInfo: any
+	userInfo: any;
 };
 const Page = () => {
 	const router = useRouter();
@@ -46,8 +49,8 @@ const Page = () => {
 		e.preventDefault();
 		SetisLoading(true);
 		try {
-			if (!user.email) {
-				ToastError({ message: "Email cannot be empty" });
+			if (!user.email || !user.password) {
+				toast.error("Please fill all fields");
 				SetisLoading(false);
 				return;
 			}
@@ -56,12 +59,6 @@ const Page = () => {
 				SetisLoading(false);
 				return;
 			}
-			if (!user.password) {
-				ToastError({ message: "Password cannot be empty" });
-				SetisLoading(false);
-				return;
-			}
-
 
 			const responseLogin: AxiosResponse<ResponseType> = await axios.post(
 				"api/users/login",
@@ -76,23 +73,20 @@ const Page = () => {
 
 			const { success, message, userInfo } = responseLogin.data;
 			if (!success) {
-				ToastError({ message });
+				toast.error(message);
 				return;
 			}
-			console.log("userInfo ", userInfo)
-			dispatch(login(userInfo))
-			ToastSuccess({ message: "Login Successful",TimetoClose:1200});
-			router.push('/categories')
+			dispatch(login(userInfo));
+			toast.success(message);
+			router.push("/categories");
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 			SetisLoading(false);
-			ToastError({ message: "Something went wrong" });
+			toast.error("Something went wrong");
 		}
 	};
 
-
 	// Login functionality
-
 
 	const loginwithGoogle = () => {
 		ToastSuccess({ message: "Login With GooGle" });
@@ -105,7 +99,6 @@ const Page = () => {
 					<div className="w-full bg-white rounded-lg shadow dark:border  sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 mt-16">
 						<div className="p-6 space-y-4 md:space-y-6 sm:p-8 ">
 							<h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-
 								Sign in to your account
 							</h1>
 
@@ -114,7 +107,8 @@ const Page = () => {
 								className="w-full h-12 rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
              focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black">
 								<div className="flex justify-center items-center gap-4 font-medium">
-									<FcGoogle size={25} />Login with Google
+									<FcGoogle size={25} />
+									Login with Google
 								</div>
 							</button>
 
@@ -160,11 +154,7 @@ const Page = () => {
 									type="submit"
 									className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 									onClick={HandleSubmitOnLogin}>
-									{isLoading ? (
-										<ClipLoader color="white" size={15} />
-									) : (
-										"Login"
-									)}
+									{isLoading ? <ClipLoader color="white" size={15} /> : "Login"}
 								</button>
 								<p className="text-sm font-light text-gray-500 dark:text-gray-400">
 									Don’t have an account yet?{" "}

@@ -9,6 +9,7 @@ import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
 import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 let validator = require("validator");
 
 type useInforType = {
@@ -51,45 +52,36 @@ const Page = () => {
 		e.preventDefault();
 		SetisLoading(true);
 		try {
-			if (!userInfo.name) {
-				ToastError({ message: "Name cannot be empty" });
+			if (
+				!userInfo.name ||
+				!userInfo.email ||
+				!userInfo.password ||
+				!userInfo.phone ||
+				!userInfo.category
+			) {
+				toast.error("Please fill all fields");
 				SetisLoading(false);
 				return;
 			}
-			if (!userInfo.email) {
-				ToastError({ message: "Email cannot be empty" });
-				SetisLoading(false);
-				return;
-			}
+
 			if (!validator.isEmail(userInfo.email)) {
-				ToastError({ message: "Please enter a valid email" });
+				toast.error("Please enter a valid email");
 				SetisLoading(false);
 				return;
 			}
-			if (!userInfo.password) {
-				ToastError({ message: "Password cannot be empty" });
-				SetisLoading(false);
-				return;
-			}
-			if (!userInfo.category) {
-				ToastError({ message: "Please Choose a category" });
-				SetisLoading(false);
-				return;
-			}
+
 			let MobileNumber: string | number = Number(userInfo.phone);
 			if (!MobileNumber) {
-				ToastError({ message: "Please enter correct mobile number" });
+				toast.error("Please enter a valid mobile number");
 				SetisLoading(false);
 				return;
 			}
 			MobileNumber = String(MobileNumber);
 			if (MobileNumber.length != 10) {
-				ToastError({ message: "Please enter 10-digit mobile number" });
+				toast.error("Please enter a valid mobile number");
 				SetisLoading(false);
 				return;
 			}
-			// Storing to db
-			console.log("user : ", userInfo);
 
 			const response: AxiosResponse<ResponseType> = await axios.post(
 				"/api/users/signup",
@@ -101,19 +93,17 @@ const Page = () => {
 				}
 			);
 			SetisLoading(false);
-
 			const { data } = response;
-
 			if (!data.success) {
-				ToastError({ message: data.message });
+				toast.error(data.message);
 				return;
 			}
-			ToastSuccess({ message: data.message });
+			toast.success(data.message);
 			router.replace("/login");
 		} catch (error) {
 			SetisLoading(false);
 			console.log(error);
-			ToastError({ message: "Something went wrong" });
+			toast.error("Something went wrong");
 		}
 	};
 	return (
@@ -130,7 +120,8 @@ const Page = () => {
 								className="w-full h-12 rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
              focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black">
 								<div className="flex justify-center items-center gap-4 font-medium">
-									<FcGoogle size={25} />Login with Google
+									<FcGoogle size={25} />
+									Login with Google
 								</div>
 							</button>
 							<form className="space-y-4 md:space-y-6">
@@ -247,7 +238,11 @@ const Page = () => {
 									type="submit"
 									className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 									onClick={HandleSumitForRegister}>
-									{isLoading ? <ClipLoader color="white" size={15} /> : "Create an account"}
+									{isLoading ? (
+										<ClipLoader color="white" size={15} />
+									) : (
+										"Create an account"
+									)}
 								</button>
 								<p className="text-sm font-light text-gray-500 dark:text-gray-400">
 									Already have an account?{" "}
@@ -267,4 +262,4 @@ const Page = () => {
 	);
 };
 
-export default Page
+export default Page;

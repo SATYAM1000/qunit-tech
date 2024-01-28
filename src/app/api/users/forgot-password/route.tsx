@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 	try {
 		const requestBody = await request.json();
 		const { email } = requestBody;
-		console.log(email);
+		
 		
 		if (!email || typeof email !== "string" || !isValidEmail(email)) {
 			return NextResponse.json(
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
 		if (!existingUser) {
 			return NextResponse.json(
-				{ message: "Email does not exist", success: false },
+				{ message: "User not found", success: false },
 		
 			);
 		}
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
 		return NextResponse.json(
 			{
-				message: "Password reset link has been sent to your email",
+				message: "Password reset link sent to your email",
 				success: true,
 			}
 		

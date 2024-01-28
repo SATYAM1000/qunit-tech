@@ -25,16 +25,16 @@ export async function POST(request: NextRequest) {
 		const user = await User.findOne({ email });
 		if (!user) {
 			return NextResponse.json(
-				{ message: "User not found,please register", success: false },
+				{ message: "Invalid credentials", success: false },
 
 			);
 		}
-		// if (!user.isVerified) {
-		// 	return NextResponse.json(
-		// 		{ message: "Please verify your email", success: false },
+		if (!user.isVerified) {
+			return NextResponse.json(
+				{ message: "Please verify your email", success: false },
 
-		// 	);
-		// }
+			);
+		}
 
 		//check password is correct or not
 		const comparePassword = await bcrypt.compare(password, user.password);

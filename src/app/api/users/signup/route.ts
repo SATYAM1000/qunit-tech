@@ -64,14 +64,13 @@ export async function POST(request: NextRequest) {
 		});
 
 		await newUser.save();
-		console.log("used saved ")
-
+		
 
 		//send email ---------------------
 		await sendEmail({ email, emailType: "VERIFY", userId: newUser._id });
 
 		return NextResponse.json(
-			{ message: "User created successfully", success: true },
+			{ message: "A verification link has been sent to your email", success: true },
 
 		);
 	} catch (error) {
