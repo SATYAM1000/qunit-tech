@@ -2,8 +2,6 @@
 
 "use client";
 import React, { useState } from "react";
-import ToastError, { ToastSuccess, ToastWorn } from "../utility/Toastify";
-import { ToastContainer } from "react-toastify";
 import axios, { AxiosResponse } from "axios";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
@@ -97,7 +95,6 @@ const Page = () => {
 						</div>
 					</div>
 				</section>
-				<ToastContainer />
 			</main>
 		</>
 	);

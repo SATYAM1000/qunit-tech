@@ -3,8 +3,6 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import ToastError, { ToastSuccess } from "../utility/Toastify";
-import { ToastContainer } from "react-toastify";
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
@@ -43,7 +41,10 @@ const Page = () => {
 		});
 	};
 	const loginwithGoogle = () => {
-		ToastSuccess({ message: "Login With GooGle" });
+		toast("Feature coming soon", {
+			icon: <FcGoogle />,
+			duration: 1000,
+		});
 	};
 
 	const HandleSumitForRegister = async (
@@ -256,7 +257,6 @@ const Page = () => {
 						</div>
 					</div>
 				</div>
-				<ToastContainer />
 			</section>
 		</>
 	);

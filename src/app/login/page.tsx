@@ -5,8 +5,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
-import ToastError, { ToastSuccess } from "../utility/Toastify";
+
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
@@ -55,7 +54,7 @@ const Page = () => {
 				return;
 			}
 			if (!validator.isEmail(user.email)) {
-				ToastError({ message: "Please enter a valid email" });
+				toast.error("Please enter a valid email");
 				SetisLoading(false);
 				return;
 			}
@@ -172,7 +171,7 @@ const Page = () => {
 					</div>
 				</div>
 			</section>
-			<ToastContainer />
+
 		</>
 	);
 };
