@@ -4,7 +4,7 @@ const page = () => {
   return (
     <>
 
-      <main className="min-h-screen  pt-16">
+      <main className="min-h-screen  pt-16 dark:bg-gray-600">
         <div>Freelancing</div>
       </main>
     </>
