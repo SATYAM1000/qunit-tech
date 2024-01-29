@@ -11,6 +11,7 @@ import jwt from "jsonwebtoken";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { IRootState } from "../../../store/store";
+import DarkModeToggler from "./DarkModeToggler";
 
 type ResponseType = {
 	message?: string;
@@ -31,10 +32,10 @@ const Navbar = () => {
 	const [OpenProfileDropDown, SetopenProfileDropDown] = useState(false); //mobile view
 	const router = useRouter()
 	const [Isloggedin, setIsloggedin] = useState(
-		useSelector((state:any) => state.isloggedIn)
+		useSelector((state: any) => state.isloggedIn)
 	);
 	const [userInfor, setuseInfo] = useState(useSelector((state: IRootState) => state.userData.user))
-	const isUserLoggedIn = useSelector((state:any) => state.userData).isloggedIn;
+	const isUserLoggedIn = useSelector((state: any) => state.userData).isloggedIn;
 	const LogoutUser = async () => {
 		const deleteCookie = await axios.get("/api/users/logout");
 		const response: ResponseType = deleteCookie.data;
@@ -73,7 +74,7 @@ const Navbar = () => {
 
 	return (
 		<>
-			<header className={` bg-white dark:bg-gray-900 fixed w-full z-20 p-2`}>
+			<header className={` bg-white dark:bg-gray-700 fixed w-full z-20 p-2`}>
 				<div className="w-full  mx-4 flex items-center justify-between p-2 ">
 					<Link
 						href={"/"}
@@ -96,9 +97,9 @@ const Navbar = () => {
 							</button>
 							<nav
 								id="navbarCollapse"
-								className={`absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white shadow dark:bg-dark-2 lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"
+								className={`absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white shadow  lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:shadow-none lg:dark:bg-transparent ${!open && "hidden"
 									} `}>
-								<ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+								<ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white  md:dark:bg-gray-700 dark:bg-transparent">
 									<li>
 										<Link
 											href="/learning"
@@ -110,21 +111,21 @@ const Navbar = () => {
 									<li>
 										<Link
 											href="/project"
-											className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 dark:text-white/[0.8]">
+											className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent  dark:text-white/[0.8]">
 											Project
 										</Link>
 									</li>
 									<li>
 										<Link
 											href="/job"
-											className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 dark:text-white/[0.8]">
+											className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent  dark:text-white/[0.8]">
 											Job
 										</Link>
 									</li>
 									<li>
 										<Link
 											href="/freelancing"
-											className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 dark:text-white/[0.8]">
+											className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent  dark:text-white/[0.8]">
 											Freelancing
 										</Link>
 									</li>
@@ -134,6 +135,7 @@ const Navbar = () => {
 						<div className=" justify-end pr-16 flex lg:pr-0 gap-4">
 							{!isUserLoggedIn ? (
 								<>
+									<DarkModeToggler />
 									<Link
 										href={"/login"}
 										className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:text-white/[0.8]">
@@ -144,10 +146,12 @@ const Navbar = () => {
 										className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:text-white/[0.8]" >
 										Signup
 									</Link>
+
 								</>
 							) : (
 								<>
-									<div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative">
+									<div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative gap-4">
+										<DarkModeToggler />
 										<button type="button" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom" onClick={() => SetopenProfileDropDown(!OpenProfileDropDown)}>
 											<img className="w-8 h-8 rounded-full" src="https://api.multiavatar.com/stefan.svg" alt="user photo" />
 										</button>
