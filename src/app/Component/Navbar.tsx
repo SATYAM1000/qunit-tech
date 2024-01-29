@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 import axios from "axios";
 import Link from "next/link";
@@ -12,6 +10,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { IRootState } from "../../../store/store";
 import DarkModeToggler from "./DarkModeToggler";
+import { FaCircleUser } from "react-icons/fa6";
 
 type ResponseType = {
 	message?: string;
@@ -152,15 +151,15 @@ const Navbar = () => {
 								<>
 									<div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse relative gap-4">
 										<DarkModeToggler />
-										<button type="button" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom" onClick={() => SetopenProfileDropDown(!OpenProfileDropDown)}>
-											<img className="w-8 h-8 rounded-full" src="https://api.multiavatar.com/stefan.svg" alt="user photo" />
+										<button type="button" id="user-menu-button" onClick={() => SetopenProfileDropDown(!OpenProfileDropDown)}>
+											<FaCircleUser size={25} className="bg-white w-8 h-8 rounded-full outline-none border-none" />
 										</button>
 										<div className={`z-50 absolute top-10 right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600  ${!OpenProfileDropDown && "hidden"}`} id="user-dropdown">
 											<div className="px-4 py-3">
 												<span className="block text-sm  font-extrabold capitalize text-gray-900 dark:text-white">{userInfor?.name}</span>
 												<span className="block text-sm text-center text-gray-500 truncate dark:text-gray-400">{userInfor?.email}</span>
 											</div>
-											<ul className="py-2" aria-labelledby="user-menu-button">
+											<ul className="py-2">
 												<li>
 													<Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white dark:text-white/[0.8]">Dashboard</Link>
 												</li>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { MdDarkMode, MdLightMode, MdOutlineLightMode } from 'react-icons/md'
+import { MdDarkMode, MdOutlineLightMode } from 'react-icons/md'
 
 const DarkModeToggler = () => {
-    const [SwitchMode, Setswitchmode] = useState(false)
+    const [SwitchMode, Setswitchmode] = useState<boolean>(false)
     const ToggleButton = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         Setswitchmode(!SwitchMode)
