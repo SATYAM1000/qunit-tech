@@ -8,6 +8,10 @@ export const fetchUsers=async(query:any)=>{
     const regex=new RegExp(query,'i');
     try {
         const users=await User.find({name:{$regex:regex}}).select("-password -emailVerificationToken -emailVerificationExpiry -forgotPasswordToken -forgotPasswordExpiry");
+        if(!users){
+            return null;
+
+        }
         return users;
         
     } catch (error:any) {
