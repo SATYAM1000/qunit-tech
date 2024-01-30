@@ -1,32 +1,77 @@
-"use client"
-import React from 'react'
-import { IoSearch } from 'react-icons/io5';
-import InstructorProfile from './InstructorProfile';
+/** @format */
+"use client";
+import React, { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
+import { fetchUsers } from "@/helpers/data";
+import { ArrowUpRight } from "lucide-react";
+import SearchComponent from "../Component/SearchComponent";
 
-const Page = () => {
+const Page = ({searchParams}:any) => {
+	const router = useRouter();
+	const [allUsers, setAllUsers] = useState([]);
+  const query=searchParams?.query || "";
 
+	useEffect(() => {
+		const getAllUsers = async () => {
+			try {
+				const res: any = await fetchUsers(query);
+				console.log(res);
+				setAllUsers(res);
+			} catch (error: any) {
+				console.log("error while fetching users");
+			}
+		};
+		getAllUsers();
+	}, [query]);
 
+	return (
+		<>
+			<main className=" w-full h-screen pt-16 dark:bg-gray-400">
+				<SearchComponent />
+				<div className="grid gap-6 gap-y-10 py-6 md:grid-cols-2 lg:grid-cols-3 bg-white min-h-screen px-6">
+					{allUsers.map((user: any) => (
+						<>
+							<div className="w-[300px] rounded-md border">
+								<Image
+									src="https://images.unsplash.com/photo-1522199755839-a2bacb67c546?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGJsb2d8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
+									alt="person1"
+									className="h-[200px] w-full rounded-t-md object-cover"
+									height={200}
+									width={200}
+								/>
+								<div className="p-4">
+									<h1 className="inline-flex items-center text-lg text-black font-semibold">
+										{user.name} &nbsp; <ArrowUpRight className="h-4 w-4" />
+									</h1>
+									<p className="mt-3 text-sm text-gray-600">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit.
+										Excepturi,
+									</p>
+									<div className="mt-4">
+										<span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
+											#Javascript
+										</span>
+										<span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
+											#Nodejs
+										</span>
+										<span className="mb-2 mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold text-gray-900">
+											#Expressjs
+										</span>
+									</div>
+									<button
+										type="button"
+										className="mt-4 w-full rounded-sm bg-black px-2 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">
+										Message
+									</button>
+								</div>
+							</div>
+						</>
+					))}
+				</div>
+			</main>
+		</>
+	);
+};
 
-  const SearchButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-  }
-  return (
-    <>
-      <main className=" w-full h-screen pt-16 dark:bg-gray-600">
-
-        <form className='m-auto mt-5 w-1/2 max-md:w-full max-md:px-4'>
-          <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <IoSearch size={20} />
-            </div>
-            <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." />
-            <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={SearchButton}>Search</button>
-          </div>
-        </form>    
-      </main>
-    </>
-  )
-}
-
-export default Page
+export default Page;

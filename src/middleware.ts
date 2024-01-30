@@ -27,7 +27,6 @@ export const config = {
 		"/login",
 		"/signup",
 		"/verify-email",
-		"/project",
 		"/job",
 		"/freelancing",
 		"/learning",
