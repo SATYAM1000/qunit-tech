@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
+
 let validator = require("validator");
 
 type useInforType = {
@@ -41,10 +43,7 @@ const Page = () => {
 		});
 	};
 	const loginwithGoogle = () => {
-		toast("Feature coming soon", {
-			icon: <FcGoogle />,
-			duration: 1000,
-		});
+		signIn("google", { callbackUrl: "/categories", redirect: true });
 	};
 
 	const HandleSumitForRegister = async (

@@ -80,7 +80,8 @@ export const authOptions: AuthOptions = {
 			},
 			async authorize(credentials, req) {
 				connectToDatabase();
-				const user = await userModel.findOne({ email: credentials?.email });
+				const user = await userModel.findOne({ email: credentials?.email }).select("-_id -__v -createdAt -updatedAt -password -phone ");
+
 				if (user) {
 					return user;
 				} else {
