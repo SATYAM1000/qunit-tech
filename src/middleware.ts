@@ -1,20 +1,18 @@
 /** @format */
-
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
-    console.log("Request nextURL ", request.nextUrl);
-	console.log("Current path is : ", path);
 	const isPublicPath =
 		path === "/login" ||
 		path === "/signup" ||
-		path === "/verify-email" ||
-		path === "/";
-	const token = request.cookies.get("token")?.value || "";
+		path === "/verify-email" 
+	const token = await getToken({ req: request });
+	console.log("your token in middleware is ", token);
 	if (isPublicPath && token) {
-		return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+		return NextResponse.redirect(new URL("/", request.nextUrl));
 	}
 	if (!isPublicPath && !token) {
 		return NextResponse.redirect(new URL("/login", request.nextUrl));
@@ -30,6 +28,6 @@ export const config = {
 		"/job",
 		"/freelancing",
 		"/learning",
-		'/categories'
+		"/categories",
 	],
 };

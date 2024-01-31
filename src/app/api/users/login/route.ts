@@ -1,7 +1,7 @@
 /** @format */
 
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/models/userModels";
+import userModel from "@/models/userModels";
 import bcrypt from "bcryptjs";
 import { connectToDatabase } from "@/config/dbConfig";
 import { generateToken } from "@/helpers/jwtTokenGenerator";
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 		}
 
 		// check user is registered or not
-		const user = await User.findOne({ email });
+		const user = await userModel.findOne({ email });
 		if (!user) {
 			return NextResponse.json(
 				{ message: "Invalid credentials", success: false },

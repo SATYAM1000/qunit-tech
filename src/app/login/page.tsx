@@ -5,7 +5,6 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
@@ -13,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../../store/userInfo.slice";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 let validator = require("validator");
 
@@ -29,7 +29,6 @@ const Page = () => {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const [isLoading, SetisLoading] = useState<boolean>(false);
-
 	const [user, Setuser] = useState<user>({
 		email: "",
 		password: "",
@@ -42,56 +41,33 @@ const Page = () => {
 		});
 	};
 
-	const HandleSubmitOnLogin = async (
-		e: React.MouseEvent<HTMLButtonElement>
-	) => {
+	const submitFormHandler = async (e: any) => {
 		e.preventDefault();
-		SetisLoading(true);
 		try {
-			if (!user.email || !user.password) {
-				toast.error("Please fill all fields");
-				SetisLoading(false);
-				return;
-			}
-			if (!validator.isEmail(user.email)) {
-				toast.error("Please enter a valid email");
-				SetisLoading(false);
-				return;
-			}
-
-			const responseLogin: AxiosResponse<ResponseType> = await axios.post(
-				"api/users/login",
-				user,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
+			SetisLoading(true);
+			const response = await axios.post("/api/users/login", user);
 			SetisLoading(false);
-
-			const { success, message, userInfo } = responseLogin.data;
-			if (!success) {
-				toast.error(message);
-				return;
+			if (response?.data?.success) {
+				signIn("credentials", {
+					email: user.email,
+					password: user.password,
+					callbackUrl: "/",
+					redirect: true,
+				});
+			} else {
+				toast.error(response?.data.message);
+				console.log(response?.data.message);
 			}
-			dispatch(login(userInfo));
-			toast.success(message);
-			router.push("/categories");
 		} catch (error) {
-			console.log(error);
 			SetisLoading(false);
-			toast.error("Something went wrong");
+			console.log("Something went wrong", error);
 		}
 	};
 
 	// Login functionality
 
-	const loginwithGoogle = () => {
-		toast("Feature coming soon", {
-			icon: <FcGoogle />,
-			duration: 1000,
-		});
+	const signInWithGoogle = () => {
+		signIn("google", { callbackUrl: "/categories", redirect: true });
 	};
 
 	return (
@@ -105,7 +81,7 @@ const Page = () => {
 							</h1>
 
 							<button
-								onClick={loginwithGoogle}
+								onClick={signInWithGoogle}
 								className="w-full h-12 text-black rounded-full bg-black/[0.05] hover:bg-black hover:text-white my-3
              focus:outline-none focus:ring-offset-2 focus:ring-2 focus:ring-black focus:bg-black focus:text-white hover:dark:font-medium dark:border-gray-400 dark:border  dark:text-white hover:dark:bg-white/[0.5] hover:dark:text-black">
 								<div className="flex justify-center items-center gap-4 font-medium ">
@@ -114,7 +90,9 @@ const Page = () => {
 								</div>
 							</button>
 
-							<form className="space-y-4 md:space-y-6">
+							<form
+								className="space-y-4 md:space-y-6"
+								onSubmit={submitFormHandler}>
 								<div>
 									<label
 										htmlFor="email"
@@ -154,8 +132,7 @@ const Page = () => {
 								</div>
 								<button
 									type="submit"
-									className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-									onClick={HandleSubmitOnLogin}>
+									className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 									{isLoading ? <ClipLoader color="white" size={15} /> : "Login"}
 								</button>
 								<p className="text-sm font-light text-gray-500 dark:text-gray-400">
@@ -171,7 +148,6 @@ const Page = () => {
 					</div>
 				</div>
 			</section>
-
 		</>
 	);
 };

@@ -1,7 +1,7 @@
 /** @format */
 
 import { connectToDatabase } from "@/config/dbConfig";
-import User from "@/models/userModels";
+import userModel from "@/models/userModels";
 import { NextRequest, NextResponse } from "next/server";
 
 connectToDatabase();
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 	try {
 		const requestBody = await request.json();
 		const { token } = requestBody;
-		const user = await User.findOne({
+		const user = await userModel.findOne({
 			emailVerificationToken: token,
 			emailVerificationExpiry: { $gt: Date.now() },
 		});

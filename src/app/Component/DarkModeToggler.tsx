@@ -17,8 +17,8 @@ const DarkModeToggler = () => {
     }
     return (    
         <>
-            <button className="bg-white dark:bg-gray-700" onClick={ToggleButton}>
-                {!SwitchMode ? <MdOutlineLightMode size={25} /> : <MdDarkMode size={25} />}
+            <button className="bg-black p-2 rounded-full  " onClick={ToggleButton}>
+                {!SwitchMode ? <MdOutlineLightMode color='white' size={25} /> : <MdDarkMode color='white' size={25} />}
             </button>
         </>
     )

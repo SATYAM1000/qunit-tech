@@ -1,7 +1,7 @@
 /** @format */
 
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/models/userModels";
+import userModel from "@/models/userModels";
 import { connectToDatabase } from "@/config/dbConfig";
 import { hashedPasswordGenerator } from "@/helpers/hashedPasswordGenerator";
 import { sendEmail } from "@/helpers/mailer";
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 		}
 
 		//check email is already exist or not
-		const emailExist = await User.findOne({ email });
+		const emailExist = await userModel.findOne({ email });
 		if (emailExist) {
 			return NextResponse.json(
 				{ message: "Email already exist", success: false }
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 		}
 
 		//check phone number already exist or not
-		const phoneNumberExist = await User.findOne({ phone });
+		const phoneNumberExist = await userModel.findOne({ phone });
 		if (phoneNumberExist) {
 			return NextResponse.json(
 				{ message: "Phone number already exist", success: false }
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
 		const hashedPassword = await hashedPasswordGenerator(password);
 
 		//creating a new user
-		const newUser = new User({
+		const newUser = new userModel({
 			name,
 			email,
 			password: hashedPassword,

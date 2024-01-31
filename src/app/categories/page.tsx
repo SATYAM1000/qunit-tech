@@ -41,13 +41,11 @@ const PageAfterLogin = (props: Props) => {
 		}
 	}, []);
 
-	
-
-
 	return (
-		<main className="w-full min-h-screen  pt-16 flex justify-center items-center flex-col gap-8 bg-[#f5f5f5] p-16 max-md:flex-col dark:bg-gray-600" >
+		<main className="w-full min-h-screen  pt-16 flex justify-center items-center flex-col gap-8 bg-[#f5f5f5] p-16 max-md:flex-col dark:bg-gray-600">
 			<h2 className="text-black text-4xl font-semibold">
-				Why do you want to use <span className="text-[#0d11e9] text-4xl font-semibold">QUnit?</span>
+				Why do you want to use{" "}
+				<span className="text-[#0d11e9] text-4xl font-semibold">QUnit?</span>
 			</h2>
 			<div className="w-full flex justify-center items-center flex-wrap gap-8 ">
 				{allCards.map((card, index) => {

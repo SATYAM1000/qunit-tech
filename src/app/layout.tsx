@@ -9,6 +9,7 @@ import Navbar from "./Component/Navbar";
 import { Provider } from "react-redux";
 import { store } from "../../store/store";
 import { Toaster } from "react-hot-toast";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,8 +27,10 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={inter.className}>
 				<Provider store={store}>
-					<Navbar />
-					{children}
+					<SessionProvider>
+						<Navbar />
+						{children}
+					</SessionProvider>
 					<Toaster />
 				</Provider>
 			</body>

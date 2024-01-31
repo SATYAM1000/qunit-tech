@@ -1,7 +1,7 @@
 /** @format */
 
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/models/userModels";
+import userModel from "@/models/userModels";
 import { connectToDatabase } from "@/config/dbConfig";
 import { hashedPasswordGenerator } from "@/helpers/hashedPasswordGenerator";
 import { generateToken } from "@/helpers/jwtTokenGenerator";
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
-		const existingUser = await User.findOne({ email });
+		const existingUser = await userModel.findOne({ email });
 
 		if (!existingUser) {
 			return NextResponse.json(

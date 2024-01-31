@@ -1,6 +1,6 @@
 /** @format */
 
-import User from "@/models/userModels";
+import userModel from "@/models/userModels";
 import { connectToDatabase } from "@/config/dbConfig";
 import { hashedPasswordGenerator } from "@/helpers/hashedPasswordGenerator";
 import { generateToken } from "@/helpers/jwtTokenGenerator";
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 				success: false,
 			});
 		}
-		const user = await User.findOne({
+		const user = await userModel.findOne({
 			forgotPasswordToken: token,
 			forgotPasswordExpiry: { $gt: Date.now() },
 		});
