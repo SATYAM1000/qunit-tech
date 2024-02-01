@@ -9,7 +9,7 @@ import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
-import { login } from "../../../store/userInfo.slice";
+import { login } from "../../../../store/userInfo.slice";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";

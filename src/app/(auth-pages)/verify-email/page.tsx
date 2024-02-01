@@ -4,14 +4,14 @@
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { FcOk } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import { FaXmark } from "react-icons/fa6";
 
-const page = () => {
+
+export default function VerifyEmailPage() {
 	const [verificationStatus, SetVerificationStatus] =
 		useState<string>("pending");
 	const [message, SetMessage] = useState<string>("Verifying your email");
@@ -71,6 +71,4 @@ const page = () => {
 			</main>
 		</>
 	);
-};
-
-export default page;
+}

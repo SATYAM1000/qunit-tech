@@ -1,3 +1,5 @@
+/** @format */
+
 import { AuthOptions, ISODateString, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { connectToDatabase } from "@/config/dbConfig";
@@ -16,6 +18,10 @@ export type CustomUser = {
 	name?: string | null;
 	email?: string | null;
 	role?: string | null;
+	image?: string | null;
+	phone?: string | null;
+	category?: string | null;
+	skills?: string[] | null;
 };
 
 export const authOptions: AuthOptions = {
@@ -34,6 +40,7 @@ export const authOptions: AuthOptions = {
 					name: user.name,
 					email: user.email,
 					role: "user",
+					category: "Student",
 				});
 				return true;
 			} catch (error) {
@@ -80,7 +87,9 @@ export const authOptions: AuthOptions = {
 			},
 			async authorize(credentials, req) {
 				connectToDatabase();
-				const user = await userModel.findOne({ email: credentials?.email }).select("-_id -__v -createdAt -updatedAt -password -phone ");
+				const user = await userModel
+					.findOne({ email: credentials?.email })
+					.select(" -__v -createdAt -updatedAt -password ");
 
 				if (user) {
 					return user;

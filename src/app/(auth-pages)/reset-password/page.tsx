@@ -4,7 +4,6 @@
 import axios, { AxiosResponse } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import ToastError, { ToastSuccess, ToastWorn } from "../utility/Toastify";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 

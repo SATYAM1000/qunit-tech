@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 import React, { useEffect } from "react";
-import CategoryCard from "../Component/category-card/CategoryCard";
+import CategoryCard from "../../Component/category-card/CategoryCard";
 import { AiOutlineDollar } from "react-icons/ai";
 import { FcGraduationCap } from "react-icons/fc";
 import { FcManager } from "react-icons/fc";

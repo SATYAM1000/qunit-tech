@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { fetchUsers } from "@/helpers/data";
 import { ArrowUpRight } from "lucide-react";
-import SearchComponent from "../Component/SearchComponent";
+import SearchComponent from "../../Component/SearchComponent";
 
 const Page = ({ searchParams }: any) => {
 	const router = useRouter();

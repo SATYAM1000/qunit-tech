@@ -7,7 +7,7 @@ connectToDatabase();
 export const fetchUsers=async(query:any)=>{
     const regex=new RegExp(query,'i');
     try {
-        const users=await userModel.find({name:{$regex:regex}}).select("-password -emailVerificationToken -emailVerificationExpiry -forgotPasswordToken -forgotPasswordExpiry");
+        const users=await userModel.find({name:{$regex:regex}}).select("-password -__v -createdAt -updatedAt -_id -emailVerificationToken -emailVerificationExpiry -forgotPasswordToken -forgotPasswordExpiry");
         if(!users){
             return null;
 
