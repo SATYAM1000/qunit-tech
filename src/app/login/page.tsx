@@ -1,11 +1,6 @@
-/** @format */
-
 "use client";
-/** @format */
-
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import { ClipLoader } from "react-spinners";
@@ -13,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { login } from "../../../store/userInfo.slice";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
+import { signIn, useSession } from "next-auth/react";
 
 let validator = require("validator");
 
@@ -26,10 +23,9 @@ type ResponseType = {
 	userInfo: any;
 };
 const Page = () => {
-	const router = useRouter();
-	const dispatch = useDispatch();
 	const [isLoading, SetisLoading] = useState<boolean>(false);
-
+	const router = useRouter();
+	const { data: session } = useSession();
 	const [user, Setuser] = useState<user>({
 		email: "",
 		password: "",
@@ -58,26 +54,21 @@ const Page = () => {
 				SetisLoading(false);
 				return;
 			}
-
-			const responseLogin: AxiosResponse<ResponseType> = await axios.post(
-				"api/users/login",
-				user,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
+			const response = await axios.post("/api/users/login", user);
 			SetisLoading(false);
-
-			const { success, message, userInfo } = responseLogin.data;
-			if (!success) {
-				toast.error(message);
-				return;
+			if (response?.data?.success) {
+				toast.success("Login succesfully")
+				signIn("credentials", {
+					email: user.email,
+					password: user.password,
+					callbackUrl: "/",
+					redirect: true,
+				});
+			} else {
+				toast.error(response?.data.message);
+				console.log(response?.data.message);
 			}
-			dispatch(login(userInfo));
-			toast.success(message);
-			router.push("/categories");
+
 		} catch (error) {
 			console.log(error);
 			SetisLoading(false);
@@ -88,12 +79,15 @@ const Page = () => {
 	// Login functionality
 
 	const loginwithGoogle = () => {
-		toast("Feature coming soon", {
-			icon: <FcGoogle />,
-			duration: 1000,
-		});
-	};
+		// signIn("google", {
+		// 	callbackUrl: '/'
+		// })
+		signIn("google", {
+			callbackUrl: '/',
+			redirect: true
+		})
 
+	}
 	return (
 		<>
 			<section className="bg-gray-50 dark:bg-gray-800 ">

@@ -13,9 +13,10 @@ export function middleware(request: NextRequest) {
 		path === "/verify-email" ||
 		path === "/";
 	const token = request.cookies.get("token")?.value || "";
-	if (isPublicPath && token) {
-		return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
-	}
+	console.log("toke",token)
+	// if (isPublicPath && token) {
+	// 	return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
+	// }
 	if (!isPublicPath && !token) {
 		return NextResponse.redirect(new URL("/login", request.nextUrl));
 	}
